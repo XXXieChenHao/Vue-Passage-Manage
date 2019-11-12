@@ -1,24 +1,31 @@
-# vue-passage-manage
+# Vue 项目 文章后台管理
 
-## Project setup
-```
-yarn install
-```
+## 项目介绍
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+>  一个类似于[今日头条自媒体头条号](<http://mp.toutiao.com/profile_v3/index>)的后台管理系统。
 
-### Compiles and minifies for production
-```
-yarn build
-```
 
-### Lints and fixes files
-```
-yarn lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 项目目标
+
+能使用  Vue + Element组件库 + 系列技术栈 开发文章后台管理系统开发。
+
+
+
+## 案例演示
+
+在线地址：<http://ttmp.research.itcast.cn/>
+
+> 账号：`13911111111`
+>
+> 密码：`246810`
+
+
+
+## 项目进展
+
+### 项目初始化
+
+- [x] 使用 vulcli 脚手架进行 Vue 项目的构建
+- [x] 使用 ESLint 进行代码规范检测
+- [x] 引入 Element-UI 使用饿了吗组件
