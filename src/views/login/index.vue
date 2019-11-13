@@ -17,7 +17,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" style="width:100%" @click="login()">登录</el-button>
+          <el-button type="primary" style="width:100%" @click="login()" :disabled="isActive" :loading="isActive">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import '@/assets/js/gt.js'
 export default {
   name: 'login',
   methods: {
@@ -32,8 +33,44 @@ export default {
       this.$refs.loginFormRef.validate(valid => {
         // 表单域校验成功
         if (valid) {
-          // 账号真实性校验
-          this.loginAct()
+          if (this.cptObj !== null) {
+            return this.cptObj.verify()
+          }
+          this.isActive = true
+          // 第三方插件 极验 人机交互验证
+          let pro = this.$http.get(`/captchas/${this.loginForm.mobile}`)
+          pro
+            .then(res => {
+              if (res.data.message === 'OK') {
+                let { data } = res.data
+                window.initGeetest(
+                  {
+                    // 以下配置参数来自服务端 SDK
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    offline: !data.success,
+                    new_captcha: true,
+                    product: 'bind'
+                  },
+                  captchaObj => {
+                    captchaObj.appendTo('#captchaBox') // 将验证按钮插入到宿主页面中captchaBox元素内
+                    captchaObj
+                      .onReady(() => {
+                        captchaObj.verify()
+                        this.isActive = false
+                        this.cptObj = captchaObj
+                      })
+                      .onSuccess(() => {
+                        // 账号真实性校验
+                        this.loginAct()
+                      })
+                  }
+                )
+              }
+            })
+            .catch(err => {
+              this.$message.error('出错啦' + err)
+            })
         }
       })
     },
@@ -60,6 +97,8 @@ export default {
       value ? callback() : callback(new Error('请同意隐私协议'))
     }
     return {
+      isActive: false,
+      cptObj: null,
       loginFormRules: {
         mobile: [
           { required: true, message: '手机号码禁止为空' },
