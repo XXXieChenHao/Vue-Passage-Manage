@@ -29,3 +29,11 @@
 - [x] 使用 vulcli 脚手架进行 Vue 项目的构建
 - [x] 使用 ESLint 进行代码规范检测
 - [x] 引入 Element-UI 使用饿了吗组件
+
+## login 页面
+
+问题：
+
+1、运行在线打包时出现 Module build failed (from ./node_modules/babel-loader/lib/index.js):
+
+​		依赖包没有安装 `yarn add babel-plugin-component -D`
