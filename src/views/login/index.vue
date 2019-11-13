@@ -4,11 +4,15 @@
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules">
         <img src="./pic.jpg" width="25%" alt />
         <el-form-item prop="mobile">
-          <el-input placeholder="请输入手机号码" v-model="loginForm.mobile"></el-input>
+          <el-input placeholder="请输入手机号码" v-model="loginForm.mobile">
+             <i slot="prefix" class="iconfont icon-shouji"></i>
+          </el-input>
         </el-form-item>
 
         <el-form-item prop="code">
-          <el-input placeholder="请输入验证码" v-model="loginForm.code"></el-input>
+          <el-input placeholder="请输入验证码" v-model="loginForm.code">
+            <i slot="prefix" class="iconfont icon-yanzhengma"></i>
+          </el-input>
         </el-form-item>
 
         <el-form-item style="text-align: left" prop="xieyi">
@@ -26,6 +30,7 @@
 
 <script>
 import '@/assets/js/gt.js'
+import '@/assets/font/iconfont.css'
 export default {
   name: 'login',
   methods: {
