@@ -7,6 +7,7 @@
         active-text-color="#3C9DFF"
         :collapse="isCollapse"
         :collapse-transition="false"
+        router
       >
         <el-menu-item index="1" :style="{width:isCollapse?'65px':'200px'}">
           <i class="el-icon-location"></i>
@@ -18,7 +19,7 @@
             <span>内容管理</span>
           </template>
           <el-menu-item index="2-1">发布文章</el-menu-item>
-          <el-menu-item index="2-2">文章列表</el-menu-item>
+          <el-menu-item index="/article">文章列表</el-menu-item>
           <el-menu-item index="2-3">评论列表</el-menu-item>
           <el-menu-item index="2-4">素材管理</el-menu-item>
         </el-submenu>
@@ -61,7 +62,9 @@
           </el-dropdown>
         </div>
       </el-header>
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -134,6 +137,6 @@ export default {
   }
 }
 .el-main {
-  background: gray;
+  background-color: rgb(242, 243, 245);
 }
 </style>

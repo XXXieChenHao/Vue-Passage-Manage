@@ -113,7 +113,7 @@ export default {
         xieyi: [{ validator: xieyiText }]
       },
       loginForm: {
-        mobile: '15555555555', // 手机号码
+        mobile: '13911111111', // 手机号码
         code: '246810', // 验证码
         xieyi: true
       }
