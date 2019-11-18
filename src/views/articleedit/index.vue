@@ -1,7 +1,7 @@
 <template>
   <el-form ref="editFormRef" :rules="editFormRules" label-width="120px" :model="editForm">
     <el-form-item label="标题" prop="title">
-      <el-input placeholder="请输入标题"  v-model="editForm.title"></el-input>
+      <el-input placeholder="请输入标题" v-model="editForm.title"></el-input>
     </el-form-item>
     <el-form-item label="内容" prop="content">
       <quillEditor v-model="editForm.content"></quillEditor>
@@ -15,12 +15,10 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="频道" prop="channel_id">
-      <el-select v-model="editForm.channel_id" clearable="">
-        <el-option v-for="item in channel_list" :key="item.id" :value="item.id" :label="item.name"></el-option>
-      </el-select>
+      <channel-com @slt="onSuccess" :cid="editForm.channel_id"></channel-com>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary"  @click="editarticle(false)">修改</el-button>
+      <el-button type="primary" @click="editarticle(false)">修改</el-button>
       <el-button @click="editarticle(true)">存入草稿</el-button>
     </el-form-item>
   </el-form>
@@ -32,11 +30,12 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
 import { quillEditor } from 'vue-quill-editor'
-
+import ChannelCom from '@/components/channel.vue'
 export default {
   name: 'Articleedit',
   components: {
-    quillEditor
+    quillEditor,
+    ChannelCom
   },
   data () {
     return {
@@ -45,7 +44,8 @@ export default {
         title: '', // 标题信息
         content: '', // 内容
         channel_id: '', // 频道信息
-        cover: { // 图片相关信息
+        cover: {
+          // 图片相关信息
           type: 0,
           images: []
         }
@@ -56,9 +56,7 @@ export default {
           { min: 5, max: 30, message: '5 到 30 个字符' }
         ],
         content: [{ required: true, message: '请填写内容' }],
-        channel_id: [
-          { required: true, message: '请选择频道信息' }
-        ]
+        channel_id: [{ required: true, message: '请选择频道信息' }]
       }
     }
   },
@@ -72,10 +70,15 @@ export default {
     }
   },
   methods: {
+    onSuccess (val) {
+      this.editForm.channel_id = val
+    },
     editarticle (flag) {
       this.$refs.editFormRef.validate(valid => {
         if (valid) {
-          let pro = this.$http.put(`/articles/${this.aid}`, this.editForm, { param: { draft: flag } })
+          let pro = this.$http.put(`/articles/${this.aid}`, this.editForm, {
+            param: { draft: flag }
+          })
           pro
             .then(res => {
               if (res.data.message === 'OK') {
@@ -84,7 +87,7 @@ export default {
               }
             })
             .catch(() => {
-              this.$message.error('对不起，修改文章出错了')
+              this.$message.error('对不起，修改w文章出错了')
             })
         }
       })

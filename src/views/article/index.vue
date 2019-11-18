@@ -15,14 +15,7 @@
             <el-radio v-model="searchForm.status" label="3">已删除</el-radio>
           </el-form-item>
           <el-form-item label="频道列表">
-            <el-select v-model="searchForm.channel_id" placeholder="请选择" clearable>
-              <el-option
-                v-for="item in channel_list"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
+            <channel-com @slt="onSuccess"></channel-com>
           </el-form-item>
           <el-form-item label="发表日期">
             <el-date-picker
@@ -84,8 +77,14 @@
 </template>
 
 <script>
+
+import ChannelCom from '@/components/channel.vue'
+
 export default {
   name: 'ArticleList',
+  components: {
+    ChannelCom
+  },
   data () {
     return {
       time: [],
@@ -159,6 +158,9 @@ export default {
             return this.$message.error('删除文章失败:' + err)
           })
       }).catch(() => { })
+    },
+    onSuccess (val) {
+      this.searchForm.channel_id = val
     }
   },
   watch: {

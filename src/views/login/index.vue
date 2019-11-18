@@ -5,7 +5,7 @@
         <img src="./pic.jpg" width="25%" alt />
         <el-form-item prop="mobile">
           <el-input placeholder="请输入手机号码" v-model="loginForm.mobile">
-             <i slot="prefix" class="iconfont icon-shouji"></i>
+            <i slot="prefix" class="iconfont icon-shouji"></i>
           </el-input>
         </el-form-item>
 
@@ -21,7 +21,13 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" style="width:100%" @click="login()" :disabled="isActive" :loading="isActive">登录</el-button>
+          <el-button
+            type="primary"
+            style="width:100%"
+            @click="login()"
+            :disabled="isActive"
+            :loading="isActive"
+          >登录</el-button>
         </el-form-item>
       </el-form>
     </div>

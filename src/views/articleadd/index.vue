@@ -15,9 +15,7 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="频道" prop="channel_id">
-      <el-select v-model="addForm.channel_id" clearable="">
-        <el-option v-for="item in channel_list" :key="item.id" :value="item.id" :label="item.name"></el-option>
-      </el-select>
+      <channel-com @slt="onSuccess" :cid="addForm.channel_id"></channel-com>
     </el-form-item>
     <el-form-item>
       <el-button type="primary"  @click="addarticle(false)">提交</el-button>
@@ -33,10 +31,13 @@ import 'quill/dist/quill.bubble.css'
 
 import { quillEditor } from 'vue-quill-editor'
 
+import ChannelCom from '@/components/channel.vue'
+
 export default {
   name: 'ArticleAdd',
   components: {
-    quillEditor
+    quillEditor,
+    ChannelCom
   },
   data () {
     return {
@@ -62,10 +63,10 @@ export default {
       }
     }
   },
-  created () {
-    this.getChannelList()
-  },
   methods: {
+    onSuccess (val) {
+      this.addForm.channel_id = val
+    },
     addarticle (flag) {
       this.$refs.addFormRef.validate(valid => {
         if (valid) {
@@ -82,18 +83,6 @@ export default {
             })
         }
       })
-    },
-    getChannelList () {
-      let pro = this.$http.get('/channels')
-      pro
-        .then(res => {
-          if (res.data.message === 'OK') {
-            this.channel_list = res.data.data.channels
-          }
-        })
-        .catch(() => {
-          this.$message.error('出错啦')
-        })
     }
   }
 }
