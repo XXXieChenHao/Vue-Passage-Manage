@@ -19,7 +19,8 @@ const routes = [{
     path: '/articleadd',
     name: 'articleadd',
     component: () => import('@/views/articleadd')
-  }]
+  }
+  ]
 },
 {
   path: '/login',

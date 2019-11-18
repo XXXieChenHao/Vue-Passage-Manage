@@ -33,7 +33,6 @@
               end-placeholder="结束日期"
               value-format="yyyy-MM-dd"
             ></el-date-picker>
-
           </el-form-item>
         </el-form>
       </div>
@@ -63,8 +62,10 @@
         </el-table-column>
         <el-table-column label="发布日期" prop="pubdate"></el-table-column>
         <el-table-column label="操作">
-          <el-button type="primary">修改</el-button>
-          <el-button type="danger">删除</el-button>
+          <template slot-scope="stData">
+              <el-button type="primary" size="mini">修改</el-button>
+              <el-button type="danger" size="mini" @click="del(stData.row.id)">删除</el-button>
+            </template>
         </el-table-column>
       </el-table>
 
@@ -142,6 +143,33 @@ export default {
         .catch(err => {
           return this.$message.error('对不起网络走丢了' + err)
         })
+    },
+    // del (id) {
+    //   let pro = this.$http.delete(`/articles/${id}`)
+    //   pro
+    //     .then(result => {
+    //       // 页面刷新即可
+    //       this.getArticleList()
+    //     })
+    //     .catch(err => {
+    //       return this.$message.error('删除文章失败:' + err)
+    //     })
+    // }
+    del (id) {
+      this.$confirm('确认要删除该数据么？', '删除', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let pro = this.$http.delete(`/articles/${id}`)
+        pro
+          .then(result => {
+            this.getArticleList()
+          })
+          .catch(err => {
+            return this.$message.error('删除文章失败:' + err)
+          })
+      }).catch(() => { })
     }
   },
   watch: {

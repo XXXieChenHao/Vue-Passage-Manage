@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import axios from 'axios'
 
+import JSONbig from 'json-bigint'
+
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0/'
 
 axios.interceptors.request.use(function (config) {
@@ -14,5 +16,13 @@ axios.interceptors.request.use(function (config) {
 }, function (error) {
   return Promise.reject(error)
 })
+
+axios.defaults.transformResponse = function (data) {
+  if (data) {
+    return JSONbig.parse(data)
+  } else {
+    return data
+  }
+}
 
 Vue.prototype.$http = axios
