@@ -75,16 +75,16 @@ export default {
     editarticle (flag) {
       this.$refs.editFormRef.validate(valid => {
         if (valid) {
-          let pro = this.$http.post('/articles', this.editForm, { param: { draft: flag } })
+          let pro = this.$http.put(`/articles/${this.aid}`, this.editForm, { param: { draft: flag } })
           pro
             .then(res => {
               if (res.data.message === 'OK') {
-                this.$message.success('恭喜你文章添加成功')
+                this.$message.success('恭喜你文章修改成功')
                 this.$router.push({ name: 'article' })
               }
             })
             .catch(() => {
-              this.$message.error('对不起，新增文章出错了')
+              this.$message.error('对不起，修改文章出错了')
             })
         }
       })
