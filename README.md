@@ -248,7 +248,9 @@
 2. 在需要使用的模板中引入、注册、使用
 3. 组件传参
 
-#### 学习回顾:
+### 学习回顾:
+
+#### 知识总结：
 
 - 父向子传参
 
@@ -310,3 +312,43 @@
    }
   }
   ```
+
+
+
+## 用户个人信息修改
+
+### 实现思路：
+
+1. 获取用户个人信息
+2. 使用表单，修改个人信息，并上传
+3. 使用兄弟组件传参，将个人信息页面信息传送到 Home 页面
+4. 使用 FormData 上传头像
+5. 修改本地 WebStorage 中的图片信息和昵称信息
+
+### 学习回顾：
+
+#### 	知识总结：
+
+- el-upload 组件
+
+  ```html
+  <el-upload
+    action="https://jsonplaceholder.typicode.com/posts/"  // 接收附件的服务器端地址
+    :show-file-list="false" // 上传好的图片不要通过列表形式呈现
+    :on-success="handleAvatarSuccess"  // 图片上传成功后的回调处理
+    :http-request="httpRequest" // 自定义上传行为，有了此属性，那么 action 和 on-success 都成摆设了
+  >
+  </el-upload>
+  ```
+
+- WebStorgae 修改
+
+  - 监听表单变量，当改变时，获取 SessionStorage 中的数据，进行修改并重新覆盖
+
+#### 	问题 bug：
+
+1、 头部名称和图像需要刷新后才显示
+
+- 头部数据在页面渲染时就已经渲染好了，当 WebStorage 改变时并没有响应式，所以无法改变，刷新时重新获取 WebStorage 中的数据，所以显示
+- 设置中间变量，监听兄弟组件传参，赋值给中间变量，如果存在参数则使用参数为昵称和头像，如果不存在则使用 WebStorage 中的数据。
+
