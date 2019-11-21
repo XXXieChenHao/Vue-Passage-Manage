@@ -21,7 +21,7 @@
           <el-menu-item index="/articleadd">发布文章</el-menu-item>
           <el-menu-item index="/article">文章列表</el-menu-item>
           <el-menu-item index="2-3">评论列表</el-menu-item>
-          <el-menu-item index="2-4">素材管理</el-menu-item>
+          <el-menu-item index="/material">素材管理</el-menu-item>
         </el-submenu>
         <el-menu-item :style="{width:isCollapse?'65px':'200px'}">
           <i class="el-icon-location"></i>
@@ -75,6 +75,7 @@ export default {
   data () {
     return {
       temp_name: '', // 临时存储用户名
+      temp_photo: '',
       isCollapse: false
     }
   },
@@ -84,6 +85,12 @@ export default {
       userinfo.name = newName
       window.sessionStorage.setItem('userinfo', JSON.stringify(userinfo))
       this.temp_name = newName
+    })
+    bus.$on('upDataImage', newImg => {
+      let userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+      userinfo.photo = newImg
+      window.sessionStorage.setItem('userinfo', JSON.stringify(userinfo))
+      this.temp_photo = newImg
     })
   },
   methods: {
@@ -111,7 +118,7 @@ export default {
   },
   computed: {
     photo () {
-      return JSON.parse(window.sessionStorage.getItem('userinfo')).photo
+      return this.temp_photo || JSON.parse(window.sessionStorage.getItem('userinfo')).photo
     },
     name () {
       return this.temp_name || JSON.parse(window.sessionStorage.getItem('userinfo')).name

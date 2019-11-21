@@ -99,6 +99,7 @@ export default {
         let pro = await this.$http.patch('user/photo', fd)
         console.log(pro)
         this.accountForm.photo = pro.data.data.photo
+        bus.$emit('upDataImage', pro.data.data.photo)
         this.$message.success('头像更新成功！')
       } catch (error) {
         this.$message.error('图片上传失败' + error)
