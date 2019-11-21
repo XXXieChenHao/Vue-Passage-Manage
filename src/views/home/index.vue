@@ -27,7 +27,7 @@
           <i class="el-icon-location"></i>
           <span>粉丝管理</span>
         </el-menu-item>
-        <el-menu-item :style="{width:isCollapse?'65px':'200px'}">
+        <el-menu-item index="/account" :style="{width:isCollapse?'65px':'200px'}">
           <i class="el-icon-location"></i>
           <span>账户管理</span>
         </el-menu-item>
@@ -70,11 +70,21 @@
 </template>
 
 <script>
+import bus from '@/utlis/bus.js'
 export default {
   data () {
     return {
+      temp_name: '', // 临时存储用户名
       isCollapse: false
     }
+  },
+  created () {
+    bus.$on('upDataName', newName => {
+      let userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'))
+      userinfo.name = newName
+      window.sessionStorage.setItem('userinfo', JSON.stringify(userinfo))
+      this.temp_name = newName
+    })
   },
   methods: {
     logout () {
@@ -104,7 +114,7 @@ export default {
       return JSON.parse(window.sessionStorage.getItem('userinfo')).photo
     },
     name () {
-      return JSON.parse(window.sessionStorage.getItem('userinfo')).name
+      return this.temp_name || JSON.parse(window.sessionStorage.getItem('userinfo')).name
     }
   }
 }
